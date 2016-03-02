@@ -16,6 +16,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.set('view engine', 'express');
 
+
+var validar = function(req, resn, next){
+  if(!req.body.usuario) return next(new Error('Preencha o campo e-mail'));
+  return next();
+};
+
+app.post('/logar', validar, function(req, res){
+  var usuario = req.body.nome;
+  res.json({ usuario: nome});
+
+});
+
 db.on('error', console.error);
 db.once('open', function() {
     console.log('Conexão estabelecida...');
@@ -32,5 +44,6 @@ app.use(function(err, req, res, next){
 app.use(function(req, res, next){
 	res.status(404).json({ message: 'Página não encontrada' });
 });
+
 http.createServer(app).listen(3040);
 console.log("Server starter on :3040");
